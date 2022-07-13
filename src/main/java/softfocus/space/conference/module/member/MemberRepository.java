@@ -7,7 +7,7 @@ import org.springframework.data.util.Streamable;
 import java.util.stream.Stream;
 
 public interface MemberRepository extends JpaRepository<Member, Integer>, QuerydslPredicateExecutor<Member> {
-    Streamable<Member> findByNameContaining(String name);
-    Streamable<Member> findByNameEquals(String name);
-    Stream<Member> findByName(String name);
+    Streamable<Member> findByNicknameContaining(String nickname);
+    Streamable<Member> findByNicknameEquals(String nickname);
+    Stream<Member> findByNickname(String nickname);
 }

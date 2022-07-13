@@ -14,11 +14,11 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public Streamable<Member> streamableExample(String name){
-        return memberRepository.findByNameContaining(name).and(memberRepository.findByNameEquals(name));
+        return memberRepository.findByNicknameContaining(name).and(memberRepository.findByNicknameEquals(name));
     }
 
     public void tryExample(String name){
-        try (var members = memberRepository.findByName(name)){
+        try (var members = memberRepository.findByNickname(name)){
             members.forEach(
                     member -> System.out.println(member.toString())
             );
