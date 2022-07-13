@@ -26,7 +26,7 @@ public class MemberService {
     }
 
     public Iterable<Member> queryDslExample(String name) {
-        Predicate predicate = member.name.eq(name);
+        Predicate predicate = member.nickname.eq(name);
         return memberRepository.findAll(predicate);
     }
 
