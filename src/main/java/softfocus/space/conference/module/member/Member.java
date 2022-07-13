@@ -33,4 +33,11 @@ public class Member extends BaseTime {
     @Enumerated(EnumType.STRING)
     private MemberRoleType role;
 
+    @Comment("위도")
+    private Double lat;
+
+    @Comment("경도")
+    private Double lon;
+
+
 }
