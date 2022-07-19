@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softfocus.space.conference.module.member.Member;
+import softfocus.space.conference.module.today.dto.TodayElementDto;
+import softfocus.space.conference.module.today.entity.Today;
 import softfocus.space.conference.module.today.repository.TodayElementRepository;
 import softfocus.space.conference.module.today.repository.TodayRepository;
 import softfocus.space.conference.module.today.response.TodayResponse;
@@ -16,7 +19,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
+import java.util.List;
 
 @Service
 @Slf4j
@@ -54,6 +57,33 @@ public class TodayService {
     }
 
     /**
+     *
+     * 컨퍼런스 글 저장
+     * @param todayElements 저장 요소 리스트
+     * @param member 작가 정보
+     * @return TodayResponse
+     */
+    @Transactional
+    public TodayResponse saveToday(List<TodayElementDto> todayElements, Member member) {
+        var todayResponse = new TodayResponse();
+        if ( todayElements == null || todayElements.size() == 0 ) {
+            todayResponse.setIsSuccess(false);
+            todayResponse.setMessage("저장할 데이터가 없습니다.");
+            return todayResponse;
+        }
+
+        var today = todayRepository.save(
+                new Today(null, LocalDate.now(), member)
+        );
+        todayElements.forEach(todayElementDto -> {
+            var todayElement = todayElementRepository.save(todayElementDto.toEntity(today));
+            todayElementDto.getTodayStyles().forEach(todayStyleDto -> todayElement.addStyle(todayStyleDto.toEntity()));
+        });
+        return getTodayResponse(todayResponse, today);
+    }
+
+
+    /**
      * 컨퍼런스 글 조회 [일자]
      * @param yyyyMmDd 일자
      * @return TodayResponse
@@ -70,7 +100,10 @@ public class TodayService {
             return todayResponse;
         }
 
-        var today = todayOptional.get();
+        return getTodayResponse(todayResponse, todayOptional.get());
+    }
+
+    private TodayResponse getTodayResponse(TodayResponse todayResponse, Today today) {
         var sort = Sort.by(Sort.Direction.ASC, "row_order")
                 .and(Sort.by(Sort.Direction.ASC, "column_order"));
 

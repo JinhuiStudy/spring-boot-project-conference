@@ -3,6 +3,8 @@ package softfocus.space.conference.module.today.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import softfocus.space.conference.module.today.entity.Today;
+import softfocus.space.conference.module.today.entity.TodayElement;
 import softfocus.space.conference.module.today.enumeration.ELEMENT_SORT;
 
 import java.util.ArrayList;
@@ -17,4 +19,8 @@ public class TodayElementDto {
     private Integer rowOrder;
     private Integer columnOrder;
     private List<TodayStyleDto> todayStyles = new ArrayList<>();
+    public TodayElement toEntity(Today today){
+        return new TodayElement(id, today, elementSort, rowOrder, columnOrder, new ArrayList<>());
+    }
+
 }
