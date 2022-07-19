@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import softfocus.space.conference.module.member.Member;
 import softfocus.space.conference.module.today.dto.TodayElementDto;
+import softfocus.space.conference.module.today.dto.TodayStyleDto;
 import softfocus.space.conference.module.today.entity.Today;
 import softfocus.space.conference.module.today.repository.TodayElementRepository;
 import softfocus.space.conference.module.today.repository.TodayRepository;
+import softfocus.space.conference.module.today.repository.TodayStyleRepository;
 import softfocus.space.conference.module.today.response.TodayResponse;
 import softfocus.space.conference.module.today.response.TodayRow;
 import softfocus.space.conference.module.today.vimeo.Vimeo;
-import softfocus.space.conference.module.today.vimeo.VimeoResponse;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class TodayService {
 
     private final TodayRepository todayRepository;
     private final TodayElementRepository todayElementRepository;
+    private final TodayStyleRepository todayStyleRepository;
 
     public void vimeoSample() throws Exception {
         var vimeo = new Vimeo("[token]");
@@ -37,7 +39,7 @@ public class TodayService {
         var videoEndPoint = vimeo.addVideo(new File("/Users/tmendici/Downloads/Video.AVI"));
 
         //get video info
-        VimeoResponse info = vimeo.getVideoInfo(videoEndPoint);
+        var info = vimeo.getVideoInfo(videoEndPoint);
         log.info("Video info: {}", info.toString());
 
         //edit video
@@ -138,4 +140,25 @@ public class TodayService {
         todayResponse.setTodayRows(todayRowList);
         return todayResponse;
     }
+
+    @Transactional
+    public boolean deleteStyle(Long todayStyleId){
+        var todayStyleOptional = todayStyleRepository.findById(todayStyleId);
+        if (todayStyleOptional.isEmpty()) {
+            return false;
+        }
+        todayStyleRepository.delete(todayStyleOptional.get());
+        return true;
+    }
+
+    @Transactional
+    public boolean deleteElement(Long todayElementId){
+        var todayElementOptional = todayElementRepository.findById(todayElementId);
+        if (todayElementOptional.isEmpty()) {
+            return false;
+        }
+        todayElementRepository.delete(todayElementOptional.get());
+        return true;
+    }
+
 }
