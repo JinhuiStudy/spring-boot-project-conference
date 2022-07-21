@@ -20,7 +20,7 @@ public class TodayElement extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     @Comment("글 번호")
     @ManyToOne
@@ -55,7 +55,7 @@ public class TodayElement extends BaseTime {
 
     public TodayElementDto toDTO() {
         return new TodayElementDto(
-                id, elementSort, rowOrder, columnOrder,
+                idx, elementSort, rowOrder, columnOrder,
                 todayStyles.stream().map(TodayStyle::toDTO).toList()
         );
     }

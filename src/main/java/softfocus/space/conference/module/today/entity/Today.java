@@ -18,7 +18,7 @@ public class Today extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     @Comment("이름")
     @Column(nullable = false)

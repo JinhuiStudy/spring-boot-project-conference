@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class ChatIp extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     @Comment("IP")
     @Column(nullable = false)

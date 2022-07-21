@@ -16,9 +16,9 @@ public class MemberOauth extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     // TODO Oauth 정보 다저장
 
-
+    private String provider;
 }

@@ -20,7 +20,7 @@ public class Chat extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     @Comment("채팅방 주인")
     @OneToOne

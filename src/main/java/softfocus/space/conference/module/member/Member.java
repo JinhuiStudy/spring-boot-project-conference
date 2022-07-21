@@ -1,22 +1,21 @@
 package softfocus.space.conference.module.member;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 import softfocus.space.conference.module.common.BaseTime;
+import softfocus.space.conference.module.member.enumeration.ProviderType;
 
 import javax.persistence.*;
 
 @Entity @Table(name = "MEMBERS")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class Member extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     @Comment("이름")
     @Column(length = 10, nullable = false)
@@ -30,6 +29,8 @@ public class Member extends BaseTime {
     @JoinColumn(name = "oauth_idx", referencedColumnName = "idx")
     private MemberOauth memberOauth;
 
+    private String provider;
+
     @Enumerated(EnumType.STRING)
     private MemberRoleType role;
 
@@ -39,5 +40,11 @@ public class Member extends BaseTime {
     @Comment("경도")
     private Double lon;
 
+
+    public Member update(String nickname){
+        this.nickname = nickname;
+
+        return this;
+    }
 
 }

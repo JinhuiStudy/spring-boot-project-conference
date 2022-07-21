@@ -109,7 +109,7 @@ public class TodayService {
         var sort = Sort.by(Sort.Direction.ASC, "row_order")
                 .and(Sort.by(Sort.Direction.ASC, "column_order"));
 
-        var todayElementList = todayElementRepository.findByToday_Id(today.getId(), sort);
+        var todayElementList = todayElementRepository.findByToday_Idx(today.getIdx(), sort);
 
         var rowOrder = 0;
         var todayRowList = new ArrayList<TodayRow>();

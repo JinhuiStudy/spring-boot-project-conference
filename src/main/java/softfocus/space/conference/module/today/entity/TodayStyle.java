@@ -18,7 +18,7 @@ public class TodayStyle extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     @Comment("글 요소 번호")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +34,7 @@ public class TodayStyle extends BaseTime {
     private String styleValue;
 
     public TodayStyleDto toDTO(){
-        return new TodayStyleDto(id, styleSort, styleValue);
+        return new TodayStyleDto(idx, styleSort, styleValue);
     }
 
 }
