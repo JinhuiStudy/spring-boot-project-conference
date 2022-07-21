@@ -2,7 +2,6 @@ package softfocus.space.conference.module.member.enumeration;
 
 public enum ProviderType {
     KAKAO("KAKAO","카카오"),
-    GOOGLE("GOOGLE","구글"),
     NAVER("NAVER","네이버");
 
     private final String key;
