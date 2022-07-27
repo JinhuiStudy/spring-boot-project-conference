@@ -33,7 +33,7 @@ public class OAuthMemberService implements OAuth2UserService<OAuth2UserRequest, 
         Member member = saveOrUpdate(attributes);
         httpSession.setAttribute("member", new MemberDTO(member));
 
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(member.getRole().toString())),
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
     }
