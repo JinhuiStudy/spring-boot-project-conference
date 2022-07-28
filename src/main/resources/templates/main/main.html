@@ -19,8 +19,7 @@
 <div id="map"></div>
 <div class="container">
     <div class="py-5 text-center">
-        <h2>Basic Web socket</h2>
-        <p class="lead">Sample of basic WebSocket broadcast - without STOMP & SockJS.</p>
+        <h2>채팅</h2>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -72,11 +71,13 @@
         ws.onmessage = function (data) {
             showBroadcastMessage(createTextNode(data.data));
         };
+        ws.send("닉네임 : 입장")
         setConnected(true);
     }
 
     function disconnect() {
         if (ws != null) {
+            ws.send("닉네임 : 퇴장")
             ws.close();
             showBroadcastMessage('<div class="alert alert-warning">Disconnected from server</div>');
         }
@@ -84,7 +85,7 @@
     }
 
     function send() {
-        ws.send($("#message").val());
+        ws.send("닉네임 : "+$("#message").val());
         $("#message").val("");
     }
 
@@ -107,7 +108,14 @@
                 map = new google.maps.Map(document.getElementById("map"), {
                     center: {  lat: Number(position.coords.latitude), lng: Number(position.coords.longitude)},
                     zoom: 16,
+
                 });
+
+                new google.maps.Marker({
+                    position: {lat: Number(position.coords.latitude), lng: Number(position.coords.longitude)},
+                    map: map
+                })
+
             }, function(error) {
                 console.error(error);
             }, {
