@@ -1,19 +1,18 @@
 package softfocus.space.conference.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import softfocus.space.conference.module.member.MemberRepository;
 import softfocus.space.conference.module.member.OAuthMemberService;
+import softfocus.space.conference.module.member.handler.LoginSuccessHandler;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -22,38 +21,34 @@ public class SecurityConfig {
 
     private final OAuthMemberService oAuthMemberService;
 
-
-//    @Bean
-//    public WebSecurityCustomizer configure() {
-//        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-//    }
+    private final MemberRepository memberRepository;
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/main","/loginPage")
+                .antMatchers("/loginPage")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .oauth2Login(oauth ->
                         oauth.loginPage("/loginPage")
+                                .successHandler(successHandler())
                                 .userInfoEndpoint()
-                                .userService(oAuthMemberService));
+                                .userService(oAuthMemberService)
+                );
 
-
-
-//        http
-//                .authorizeHttpRequests((authz) -> authz
-//                        .anyRequest().authenticated()
-//                )
-//                .oauth2Login((oauth)-> oauth.loginPage("/loginPage"));
         return http.build();
     }
 
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new LoginSuccessHandler(memberRepository);
+    }
 }

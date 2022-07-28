@@ -14,23 +14,28 @@ import softfocus.space.conference.module.member.dto.OAuthAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class OAuthMemberService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final MemberRepository memberRepository;
+
+    private final MemberOauthRepository memberOauthRepository;
+
     private final HttpSession httpSession;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = delegate.loadUser(userRequest);
+        var oAuth2User = delegate.loadUser(userRequest);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+        var registrationId = userRequest.getClientRegistration().getRegistrationId();
+        var userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        Member member = saveOrUpdate(attributes);
+        var attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+        var member = saveOrUpdate(attributes);
+
         httpSession.setAttribute("member", new MemberDTO(member));
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
@@ -39,9 +44,15 @@ public class OAuthMemberService implements OAuth2UserService<OAuth2UserRequest, 
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes){
-        Member member = memberRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName()))
+        var member = memberRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getNickname()))
                 .orElse(attributes.toEntity());
+
+        var optional = memberOauthRepository.findByOauthId(attributes.getMemberOauth().getOauthId());
+        if(optional.isEmpty()){
+            var memberOauth = memberOauthRepository.save(attributes.getMemberOauth());
+            member.setMemberOauth(memberOauth);
+        }
         return memberRepository.save(member);
     }
 }
