@@ -10,6 +10,10 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class MainController {
 
+    @GetMapping("/video")
+    public String video(){
+        return "/main/video";
+    }
 
     @GetMapping("/loginPage")
     public String login(){
