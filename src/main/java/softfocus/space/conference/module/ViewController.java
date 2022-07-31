@@ -29,7 +29,7 @@ public class ViewController {
 
     @GetMapping("/edit")
     public String edit(){
-        return "/edit/edit";
+        return "/edit/edit :: content";
     }
 
     @RequestMapping("/content")

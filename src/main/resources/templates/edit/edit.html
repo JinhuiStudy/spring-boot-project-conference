@@ -1,125 +1,75 @@
-
-
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>GrapesJS</title>
-    <!--    <link rel="stylesheet" th:href="@{/grapes/grapes.min.css}">-->
+    <title></title>
+</head>
+
+<body>
+<div th:fragment="content" style="height: 100%;">
     <script th:src="@{/js/grapes/grapes.min.js}"></script>
     <script th:src="@{/js/grapes/grapesjs-blocks-basic.min.js}"></script>
     <script th:src="@{/js/grapes/grapesjs-tabs.min.js}"></script>
     <script th:src="@{/js/grapes/grapesjs-style-bg.min.js}"></script>
     <script th:src="@{/js/grapes/grapesjs-video-embed-manager.min.js}"></script>
 
-    <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
-        }
+    <div id="gjs" style="height:0; overflow:hidden;">
 
-        .panel {
-            width: 90%;
-            max-width: 700px;
-            border-radius: 3px;
-            padding: 30px 20px;
-            margin: 150px auto 0px;
-            background-color: #d983a6;
-            box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
-            color:rgba(255,255,255,0.75);
-            font: caption;
-            font-weight: 100;
-        }
-
-        .welcome {
-            text-align: center;
-            font-weight: 100;
-            margin: 0px;
-        }
-
-        .logo {
-            width: 70px;
-            height: 70px;
-            vertical-align: middle;
-        }
-
-        .logo path {
-            pointer-events: none;
-            fill: none;
-            stroke-linecap: round;
-            stroke-width: 7;
-            stroke: #fff
-        }
-
-        .big-title {
-            text-align: center;
-            font-size: 3.5rem;
-            margin: 15px 0;
-        }
-
-        .description {
-            text-align: justify;
-            font-size: 1rem;
-            line-height: 1.5rem;
-        }
-
-    </style>
-</head>
-
-<body>
-<div id="gjs" style="height:0; overflow:hidden;">
-
-    <style>
-        .gjs-cell {
-            vertical-align: top; /*CSS 조정가능하게 설정하는 법 찾아야 함*/
-            width: 8%;
-            display: table-cell;
-            height: 75px;
-        }
-
-        img {
-            max-width:100%;
-        }
-
-        div[data-gjs-type="video"] {
-            max-width:100%;
-            max-height:100% !important;
-        }
-
-        /*.gjs-plh-image {*/
-        /*  background: #f5f5f5;*/
-        /*  border: none;*/
-        /*  width: 100px;*/
-        /*  display: block;*/
-        /*  outline: 3px solid #ffca6f;*/
-        /*  cursor: pointer;*/
-        /*  outline-offset: -2px;*/
-        /*  max-width:100%;*/
-        /*  height:auto;*/
-        /*}*/
-
-        @media (max-width: 768px) {
+        <style>
             .gjs-cell {
-                width: 100%;
-                display: table;
+                vertical-align: top; /*CSS 조정가능하게 설정하는 법 찾아야 함*/
+                width: 8%;
+                display: table-cell;
+                height: 75px;
             }
-        }
-    </style>
+
+            img {
+                max-width:100%;
+            }
+
+            div[data-gjs-type="video"] {
+                max-width:100%;
+                max-height:100% !important;
+            }
+
+            /*.gjs-plh-image {*/
+            /*  background: #f5f5f5;*/
+            /*  border: none;*/
+            /*  width: 100px;*/
+            /*  display: block;*/
+            /*  outline: 3px solid #ffca6f;*/
+            /*  cursor: pointer;*/
+            /*  outline-offset: -2px;*/
+            /*  max-width:100%;*/
+            /*  height:auto;*/
+            /*}*/
+
+            @media (max-width: 768px) {
+                .gjs-cell {
+                    width: 100%;
+                    display: table;
+                }
+            }
+        </style>
+    </div>
+
+    <!--    <button onclick="getHtml()">HTML 확인</button>-->
+    <!--    <button onclick="getCss()">CSS 확인</button>-->
+    <!--    <button onclick="getJs()">JS 확인</button>-->
+    <!--    <button onclick="save()">저장</button>-->
+
+    <script th:src="@{/js/edit/i18n.js}"></script>
+    <script th:src="@{/js/edit/panel.js}"></script>
+    <script th:src="@{/js/edit/storage.js}"></script>
+    <script th:src="@{/js/edit/style.js}"></script>
+    <script th:src="@{/js/edit/assert_manager.js}"></script>
+    <script th:src="@{/js/edit/vimeo.js}"></script>
+    <script th:src="@{/js/edit/init.js}"></script>
+
 </div>
 
-<script th:src="@{/js/edit/i18n.js}"></script>
-<script th:src="@{/js/edit/panel.js}"></script>
-<script th:src="@{/js/edit/storage.js}"></script>
-<script th:src="@{/js/edit/style.js}"></script>
-<script th:src="@{/js/edit/assert_manager.js}"></script>
-<script th:src="@{/js/edit/vimeo.js}"></script>
-<script th:src="@{/js/edit/init.js}"></script>
 
-<!--    <button onclick="getHtml()">HTML 확인</button>-->
-<!--    <button onclick="getCss()">CSS 확인</button>-->
-<!--    <button onclick="getJs()">JS 확인</button>-->
-<!--    <button onclick="save()">저장</button>-->
+
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 
 const projectID = 1;
-const projectEndpoint = `http://localhost:8090/today/${projectID}`;
+const projectEndpoint = `https://localhost:8080/today/${projectID}`;
 
 var storageManager = {
   type: 'remote',

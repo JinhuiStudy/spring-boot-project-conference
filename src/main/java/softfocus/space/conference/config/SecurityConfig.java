@@ -60,7 +60,8 @@ public class SecurityConfig {
                 )
                 .permitAll()
                 .anyRequest()
-                .authenticated()
+//                .authenticated()
+                .permitAll()
                 .and()
                 .oauth2Login(oauth ->
                         oauth.loginPage("/loginPage")

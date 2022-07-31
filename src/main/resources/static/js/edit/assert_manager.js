@@ -16,7 +16,7 @@ var assetManager =  {
     stylePrefix: 'am-',
 
     // Upload endpoint, set `false` to disable upload
-    // upload: 'http://localhost:8090/today/uploadMultipleFiles',
+    // upload: 'https://localhost:8080/today/uploadMultipleFiles',
     // upload: false,
     upload: 0,
 

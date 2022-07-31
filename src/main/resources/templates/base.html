@@ -6,6 +6,7 @@
 
     <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
 </head>
 
 <body>
@@ -13,6 +14,7 @@
     <option>Content 1</option>
     <option>Content 2</option>
     <option>Main</option>
+    <option>Edit</option>
 </select>
 
 <div id="replace_div">
@@ -27,29 +29,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 
-<script>
-    $(document).ready(function () {
-        const getContent = () => {
-            //create url to request fragment
-            var url = /content/;
-            if ($('#selection').val() === "Content 1") {
-                url = url + "content1";
-            } else if ($('#selection').val() === "Main") {
-                url = "/main";
-            } else {
-                url = url + "content2";
-            }
+<script th:src="@{/js/base.js}"></script>
 
-            //load fragment and replace content
-            $('#replace_div').load(url);
-        }
-
-        //call function when page is loaded
-        getContent();
-
-        //set on change listener
-        $('#selection').change(getContent);
-    })
-</script>
 </body>
 </html>
