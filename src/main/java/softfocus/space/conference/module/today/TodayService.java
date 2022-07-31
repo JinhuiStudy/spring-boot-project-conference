@@ -54,14 +54,14 @@ public class TodayService {
     }
 
     @Transactional
-    public Long getToday(Member member) {
+    public Today getToday(Member member) {
         var todayOptional = todayRepository.findByDayAndMember_Idx(LocalDate.now(), member.getIdx());
         if (todayOptional.isEmpty()) {
             return todayRepository.save(
                     new Today(null, LocalDate.now(), member, "", "", "", "")
-            ).getIdx();
+            );
         }
-        return todayOptional.get().getIdx();
+        return todayOptional.get();
     }
 
     @Transactional

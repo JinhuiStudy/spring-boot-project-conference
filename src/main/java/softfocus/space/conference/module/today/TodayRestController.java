@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import softfocus.space.conference.module.member.MemberService;
 import softfocus.space.conference.module.today.dto.FileGrapeDTO;
 import softfocus.space.conference.module.today.entity.Today;
 import softfocus.space.conference.module.today.request.TodaySaveRequest;
@@ -17,6 +18,7 @@ import softfocus.space.conference.module.today.vimeo.VimeoSampleData;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,8 +29,8 @@ public class TodayRestController {
 
     private final FileService fileService;
     private final TodayService todayService;
+    private final MemberService memberService;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static Map<Object, Object> map = null;
 
     private final AmazonS3 amazonS3;
 
@@ -66,36 +68,53 @@ public class TodayRestController {
         return todayService.getTodayData(idx);
     }
 
-    @GetMapping("/vimeo/data")
-    public ResponseEntity<Object> data (){
+    @GetMapping("/vimeo/data/{memberIdx}")
+    public ResponseEntity<Object> data (
+            @PathVariable Integer memberIdx
+    ){
+        System.out.println("DATA:" + memberIdx);
         return ResponseEntity.ok(VimeoSampleData.jsonData);
     }
 
-    @PostMapping("/vimeo/upload")
-    public ResponseEntity<Object> vimeoFileUpload (MultipartHttpServletRequest multipartHttpServletRequest){
+    @PostMapping("/vimeo/upload/{memberIdx}")
+    public ResponseEntity<Object> vimeoFileUpload (
+            MultipartHttpServletRequest multipartHttpServletRequest,
+            @PathVariable Integer memberIdx
+    ){
+        System.out.println("vimeoFileUpload:" + memberIdx);
         var file = multipartHttpServletRequest.getFile("file");
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/file/upload")
-    public ResponseEntity<Object> uploadMultipleFiles(MultipartHttpServletRequest multipartHttpServletRequest) {
-      var files = multipartHttpServletRequest.getFiles("files");
-      var fileList = files.stream().map(multipartFile -> {
-          try {
-              var image = ImageIO.read(multipartFile.getInputStream());
-              try {
-                  var uploadPath = fileService.uploadFile(multipartFile);
-                  return new FileGrapeDTO(multipartFile.getOriginalFilename(), "image", uploadPath, image.getHeight(), image.getWidth());
-              } catch (IOException e) {
-                  e.printStackTrace();
-                  return new FileGrapeDTO(multipartFile.getOriginalFilename(), "image", "", 100, 100);
-              }
-          } catch (IOException e) {
-              e.printStackTrace();
-          }
-          return new FileGrapeDTO(multipartFile.getOriginalFilename(), "image", "", 100, 100);
-      });
+    @PostMapping("/file/upload/{memberIdx}")
+    public ResponseEntity<Object> uploadMultipleFiles(
+            MultipartHttpServletRequest multipartHttpServletRequest,
+            @PathVariable Integer memberIdx) {
 
-      return ResponseEntity.ok(new FileResponse(fileList.collect(Collectors.toList())));
+          var member = memberService.getMember_paramIdx(memberIdx);
+          if (member == null) {
+              return ResponseEntity.ok(
+                      new FileResponse(
+                              List.of(new FileGrapeDTO("", "image", "", 100, 100))
+                      )
+              );
+          }
+
+          var files = multipartHttpServletRequest.getFiles("files");
+          var fileList = files.stream()
+                  .map(
+                          multipartFile -> {
+                              try {
+                                  var uploadPath = fileService.saveFile(multipartFile, member);
+                                  return uploadPath.toGrapeDTO();
+                              } catch (IOException e) {
+                                  e.printStackTrace();
+                                  return new FileGrapeDTO(multipartFile.getOriginalFilename(), "image", "", 100, 100);
+                              }
+                          });
+
+      return ResponseEntity.ok(
+              new FileResponse(fileList.collect(Collectors.toList()))
+      );
     }
 }

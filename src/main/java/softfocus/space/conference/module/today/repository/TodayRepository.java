@@ -8,5 +8,5 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface TodayRepository extends JpaRepository<Today, Long>, QuerydslPredicateExecutor<Today> {
-    Optional<Today> findByDayAndMember_Idx(LocalDate day, Long member_idx);
+    Optional<Today> findByDayAndMember_Idx(LocalDate day, Integer member_idx);
 }

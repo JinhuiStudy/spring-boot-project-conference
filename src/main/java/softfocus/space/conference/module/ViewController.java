@@ -48,7 +48,9 @@ public class ViewController {
             return "/login/login";
         }
 
-        model.addAttribute("projectID", todayService.getToday(member));
+        model.addAttribute("projectID", todayService.getToday(member).getIdx());
+        model.addAttribute("memberIdx", todayService.getToday(member).getMember().getIdx());
+
         return "/edit/edit :: content";
     }
 

@@ -6,8 +6,13 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import softfocus.space.conference.module.member.Member;
+import softfocus.space.conference.module.today.entity.File;
+import softfocus.space.conference.module.today.repository.FileRepository;
 
+import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,13 +28,34 @@ public class FileService {
     @Value("${cloud.aws.s3.location}")
     String path;
     private final AmazonS3 amazonS3;
+    private final FileRepository fileRepository;
 
-    public String uploadFile(MultipartFile multipartFile) throws IOException {
+    @Transactional
+    public File saveFile(MultipartFile multipartFile, Member member) throws IOException{
+        var image = ImageIO.read(multipartFile.getInputStream());
+        var fileName = createRandomFileName() + "_" + getCurrentDateTimeConnect();
+        var path = uploadFile(multipartFile, fileName);
+        return fileRepository.save(
+                new File(
+                        null,
+                        member,
+                        multipartFile.getOriginalFilename(),
+                        multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1),
+                        fileName,
+                        path,
+                        image.getHeight(),
+                        image.getWidth(),
+                        multipartFile.getSize()
+                )
+        );
+    }
+
+    public String uploadFile(MultipartFile multipartFile, String fileName) throws IOException {
         var objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
         var putObjectRequest = new PutObjectRequest(
                 bucket,
-                path + createRandomFileName() + "_" + getCurrentDateTimeConnect(),
+                path + fileName,
                 multipartFile.getInputStream(),
                 objectMetadata
         );

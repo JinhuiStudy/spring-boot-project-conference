@@ -34,8 +34,10 @@ public class MemberService {
         return memberRepository.findAll(predicate);
     }
 
-
-
+    public Member getMember_paramIdx(Integer idx){
+        Optional<Member> optional = memberRepository.findById(idx);
+        return optional.orElse(null);
+    }
 
     public MemberDTO getMember(String oauth_id){
         Optional<Member> optional = memberRepository.findByMemberOauth_OauthId(oauth_id);
