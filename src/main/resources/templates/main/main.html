@@ -1,79 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<style>
 
-</style>
-<link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<style>
 
-</style>
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-            <link rel="stylesheet" type="text/css" th:href="@{/css/main/main.css}"/>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <body>
-<div class="right-side">
-    <div id="map"></div>
-    <div id="videos" class="text-center">
-        <script>
-            let username = "[[${member.email}]]"
-            console.log(username)
-        </script>
-        <!--
-        작가면 localVideo , 사용자면 remoteVideo
+<div th:fragment="main">
 
-        사용자는 마이크 사용 못하게, 안들을 수 있게
-        !-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main/main.css}"/>
 
-        <video id="localVideo" autoplay muted playsinline></video>
-        <button id="mute-btn" onclick="mute()">화면 끄기</button>
-        <!--    <video id="remoteVideo" autoplay playsinline></video>-->
-    </div>
-    <div class="container">
-        <div class="py-5 text-center">
-            <h2>채팅</h2>
+    <div class="right-side">
+        <div id="map"></div>
+        <div id="videos" class="text-center">
+            <script>
+                let username = "[[${member.email}]]"
+                console.log(username)
+            </script>
+            <!--
+            작가면 localVideo , 사용자면 remoteVideo
+
+            사용자는 마이크 사용 못하게, 안들을 수 있게
+            !-->
+
+            <video id="localVideo" autoplay muted playsinline></video>
+            <button id="mute-btn" onclick="mute()">화면 끄기</button>
+            <!--    <video id="remoteVideo" autoplay playsinline></video>-->
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row mb-3">
-                    <div class="input-group">
-                        Web socket connection:&nbsp;
-                        <div class="btn-group">
-                            <button type="button" id="connect" class="btn btn-sm btn-outline-secondary" onclick="connect()">Connect</button>
-                            <button type="button" id="disconnect" class="btn btn-sm btn-outline-secondary" onclick="disconnect()" disabled>Disconnect</button>
+        <div class="container">
+            <div class="py-5 text-center">
+                <h2>채팅</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <div class="input-group">
+                            Web socket connection:&nbsp;
+                            <div class="btn-group">
+                                <button type="button" id="connect" class="btn btn-sm btn-outline-secondary" onclick="connect()">Connect</button>
+                                <button type="button" id="disconnect" class="btn btn-sm btn-outline-secondary" onclick="disconnect()" disabled>Disconnect</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="input-group" id="sendmessage" style="display: none;">
+                            <input type="text" id="message" class="form-control" placeholder="Message">
+                            <div class="input-group-append">
+                                <button id="send" class="btn btn-primary" onclick="sendChat()">Send</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="input-group" id="sendmessage" style="display: none;">
-                        <input type="text" id="message" class="form-control" placeholder="Message">
-                        <div class="input-group-append">
-                            <button id="send" class="btn btn-primary" onclick="sendChat()">Send</button>
-                        </div>
-                    </div>
+                <div class="col-md-6">
+                    <div id="content"></div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div id="content"></div>
             </div>
         </div>
     </div>
 
+    <script th:src="@{/js/main/client.js?123}"></script>
+    <script th:src="@{/js/main/main.js}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbBZ7x_Apr11nIHJL7xF7y3eO3QLe0SiU&callback=initMap&libraries=places&v=weekly&radius=5000"></script>
 </div>
 
-
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 
-<script src="/js/main/client.js?123"></script>
-<script src="/js/main/main.js"></script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbBZ7x_Apr11nIHJL7xF7y3eO3QLe0SiU&callback=initMap&libraries=places&v=weekly&radius=5000"></script>
 </html>

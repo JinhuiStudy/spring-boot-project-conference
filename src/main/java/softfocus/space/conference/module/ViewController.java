@@ -24,7 +24,7 @@ public class ViewController {
     public String main(Model model,Principal principal){
         MemberDTO member = memberService.getMember(principal.getName());
         model.addAttribute("member",member);
-        return "/main/main";
+        return "/main/main :: main";
     }
 
     @GetMapping("/edit")
