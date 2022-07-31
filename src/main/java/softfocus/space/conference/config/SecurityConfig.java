@@ -55,7 +55,8 @@ public class SecurityConfig {
                         "/js/**",
                         "/socket/**",
                         "/web-socket",
-                        "/web-socket/**"
+                        "/web-socket/**",
+                        "/content/**"
                 )
                 .permitAll()
                 .anyRequest()
