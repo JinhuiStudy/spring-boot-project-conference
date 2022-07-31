@@ -1,9 +1,12 @@
 package softfocus.space.conference.module.member.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import softfocus.space.conference.module.member.Member;
 
 @Data
+@AllArgsConstructor
 public class MemberDTO {
     private String nickname;
     private String email;

@@ -3,6 +3,7 @@ package softfocus.space.conference.module.member;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import softfocus.space.conference.module.common.BaseTime;
+import softfocus.space.conference.module.member.dto.MemberDTO;
 import softfocus.space.conference.module.member.enumeration.ProviderType;
 
 import javax.persistence.*;
@@ -49,5 +50,9 @@ public class Member extends BaseTime {
 
     public String getRoleKey(){
         return this.role.getKey();
+    }
+
+    public MemberDTO toDTO(){
+        return new MemberDTO(email,nickname,lat,lon);
     }
 }

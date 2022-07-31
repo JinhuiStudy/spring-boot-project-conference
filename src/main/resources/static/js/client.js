@@ -181,20 +181,25 @@ async function initialize() {
 
 
 async function initLocalStream(){
-    // 작가만 할수있게
-    localVideo.addEventListener('click', e => {
+    // localVideo.addEventListener('click', e => {
+    //     mute(localVideo);
+    // });
+    // 작가면 localVideo mute, 사용자면 remoteVideo mute
+    document.getElementById("mute-btn").addEventListener('click', e => {
         mute(localVideo);
     });
 
-    /**
-     * video/audio를 잠시 멈춤
-     * @param {HTMLObject} videoElem
-     */
+
     const mute = videoElem => {
         const {srcObject: stream} = videoElem;
         const tracks = stream.getTracks();
         tracks.forEach(track => track.enabled = !track.enabled);
     };
+    /**
+     * video/audio를 잠시 멈춤
+     * @param {HTMLObject} videoElem
+     */
+
 
     const constraints = {
         video: true,

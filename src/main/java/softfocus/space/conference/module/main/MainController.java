@@ -4,16 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import softfocus.space.conference.module.member.MemberService;
+import softfocus.space.conference.module.member.dto.MemberDTO;
+
 import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
 public class MainController {
 
-    @GetMapping("/video")
-    public String video(){
-        return "/main/video";
-    }
+    private final MemberService memberService;
 
     @GetMapping("/loginPage")
     public String login(){
@@ -23,12 +23,9 @@ public class MainController {
     @GetMapping("/main")
     public String main(Model model,Principal principal){
         System.out.println(principal.getName());
-
+        MemberDTO member = memberService.getMember(principal.getName());
+        model.addAttribute("member",member);
         return "/main/main";
     }
 
-    @GetMapping("/rtc")
-    public String rtc(){
-        return "/main/webrtc";
-    }
 }
