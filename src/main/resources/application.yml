@@ -55,3 +55,16 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA5VANCAYHN3OBCIPS
+      secret-key: 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
+    s3:
+      bucket: softfocus.website
+      location: soft/
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

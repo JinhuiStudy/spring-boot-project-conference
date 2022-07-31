@@ -12,8 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import softfocus.space.conference.module.member.MemberRepository;
-import softfocus.space.conference.module.member.OAuthMemberService;
-import softfocus.space.conference.module.member.handler.LoginSuccessHandler;
+import softfocus.space.conference.module.member.auth.OAuthMemberService;
+import softfocus.space.conference.module.member.auth.LoginSuccessHandler;
 
 import java.util.Collections;
 

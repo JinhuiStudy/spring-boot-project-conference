@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 import softfocus.space.conference.module.common.BaseTime;
 import softfocus.space.conference.module.member.dto.MemberDTO;
-import softfocus.space.conference.module.member.enumeration.ProviderType;
 
 import javax.persistence.*;
 
