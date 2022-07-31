@@ -22,7 +22,6 @@ public class ViewController {
 
     @GetMapping("/main")
     public String main(Model model,Principal principal){
-        System.out.println(principal.getName());
         MemberDTO member = memberService.getMember(principal.getName());
         model.addAttribute("member",member);
         return "/main/main";

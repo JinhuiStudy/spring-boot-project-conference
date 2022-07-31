@@ -45,7 +45,8 @@ spring:
               - profile_nickname
             client-name: Kakao
             authorization-grant-type: authorization_code
-            redirect-uri: https://softfocus.website:8080/login/oauth2/code/kakao
+#            redirect-uri: https://softfocus.website:8080/login/oauth2/code/kakao
+            redirect-uri: https://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
 
         provider:

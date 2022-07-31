@@ -3,6 +3,8 @@
 
 <head>
     <title>Index</title>
+
+    <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -17,18 +19,12 @@
 
 <!-- JQury from Google CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
     $(document).ready(function () {
-
-        //call function when page is loaded
-        getContent();
-
-        //set on change listener
-        $('#selection').change(getContent);
-
-        function getContent() {
-
+        const getContent = () => {
             //create url to request fragment
             var url = /content/;
             if ($('#selection').val() === "Content 1") {
@@ -40,6 +36,12 @@
             //load fragment and replace content
             $('#replace_div').load(url);
         }
+
+        //call function when page is loaded
+        getContent();
+
+        //set on change listener
+        $('#selection').change(getContent);
     })
 </script>
 </body>

@@ -20,7 +20,7 @@ conn.onopen = function(e) {
 };
 
 /**r
- * MessageEvent 객체가 인자로 전달된다.
+ * MessageEvent 객체가 인자로 전달된다.
  */
 conn.onmessage = function({data}) {
     data = JSON.parse(data);
