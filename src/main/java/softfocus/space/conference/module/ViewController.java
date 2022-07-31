@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import softfocus.space.conference.module.member.MemberService;
 import softfocus.space.conference.module.member.dto.MemberDTO;
+import softfocus.space.conference.module.today.TodayService;
 
 import java.security.Principal;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ViewController {
     private final MemberService memberService;
+    private final TodayService todayService;
 
     @GetMapping("/loginPage")
     public String login(){
@@ -36,7 +38,17 @@ public class ViewController {
     }
 
     @GetMapping("/edit")
-    public String edit(){
+    public String edit(Model model, Principal principal){
+
+        if (principal == null) {
+            return "/login/login";
+        }
+        var member = memberService.getMemberEntity(principal.getName());
+        if (member == null) {
+            return "/login/login";
+        }
+
+        model.addAttribute("projectID", todayService.getToday(member));
         return "/edit/edit :: content";
     }
 

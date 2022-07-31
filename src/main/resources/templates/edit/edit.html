@@ -53,11 +53,9 @@
         </style>
     </div>
 
-    <!--    <button onclick="getHtml()">HTML 확인</button>-->
-    <!--    <button onclick="getCss()">CSS 확인</button>-->
-    <!--    <button onclick="getJs()">JS 확인</button>-->
-    <!--    <button onclick="save()">저장</button>-->
-
+    <script th:inline="javascript">
+        const projectID = [[${projectID}]];
+    </script>
     <script th:src="@{/js/edit/i18n.js}"></script>
     <script th:src="@{/js/edit/panel.js}"></script>
     <script th:src="@{/js/edit/storage.js}"></script>

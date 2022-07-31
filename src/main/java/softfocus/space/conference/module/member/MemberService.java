@@ -42,6 +42,10 @@ public class MemberService {
         return optional.map(Member::toDTO).orElse(null);
     }
 
+    public Member getMemberEntity(String oauth_id){
+        Optional<Member> optional = memberRepository.findByMemberOauth_OauthId(oauth_id);
+        return optional.orElse(null);
+    }
 
     public List<MemberDTO> findAll(){
         return memberRepository.findAll().stream().map(Member::toDTO).toList();

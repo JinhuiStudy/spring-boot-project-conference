@@ -29,4 +29,20 @@ public class Today extends BaseTime {
     @JoinColumn(name = "member_idx", referencedColumnName = "idx", nullable = false)
     private Member member;
 
+    @Comment("저장 Json")
+    @Lob
+    private String data;
+
+    @Comment("저장 HTML 소스")
+    @Lob
+    private String htmlData;
+
+    @Comment("저장 CSS 소스")
+    @Lob
+    private String cssData;
+
+    @Comment("저장 JavaScript 소스")
+    @Lob
+    private String jsData;
+
 }

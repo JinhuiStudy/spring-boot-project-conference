@@ -45,22 +45,3 @@ var editor = grapesjs.init({
 // );
 
 
-function getHtml(){
-  console.log(editor.getHtml());
-}
-
-function getJs(){
-  console.log(editor.getJs());
-}
-
-function getCss(){
-  console.log(editor.getCss());
-}
-
-function save() {
-  const data = editor.getProjectData();
-  console.log(data);
-  editor.Storage.store(data);
-}
-
-

@@ -47,16 +47,36 @@ var panels = {
                     id: sav,
                     className: 'fa fa-floppy-o',
                     command: (editor => {
-                        let store = editor.Storage.store(editor.getProjectData());
-                        store
-                            .then(result => {
-                                console.log(result);
-                                alert("저장이 완료되었습니다.");
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                alert("저장을 실패헸습니다.")
-                            });
+                        $.ajax({
+                            url: `/today/${projectID}`,
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                cssData: editor.getCss(),
+                                jsData: editor.getJs(),
+                                htmlData: editor.getHtml(),
+                            }),
+                            dataType: 'text',
+                            beforeSend: function(jqXHR) {}, // 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
+                            success: function(data, statusText, jqXHR) {
+                                editor.Storage.store(editor.getProjectData())
+                                    .then(result => {
+                                        console.log(result);
+                                        alert("저장이 완료되었습니다.");
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                        alert("저장을 실패헸습니다.")
+                                    });
+                            },
+                            error: function(data, statusText, jqXHR) {
+                                console.log(data);
+                                console.log(statusText);
+                                console.log(jqXHR);
+                                alert("저장을 실패헸습니다.");
+                            }, // 요청 실패.
+                            complete: function(jqXHR) {} // 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
+                        });
                     }),
                     context: sav,
                     attributes: { title: 'Save' },
