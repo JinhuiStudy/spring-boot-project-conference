@@ -52,6 +52,6 @@ public class Member extends BaseTime {
     }
 
     public MemberDTO toDTO(){
-        return new MemberDTO(email,nickname,lat,lon);
+        return new MemberDTO(idx,nickname,email,lat,lon);
     }
 }

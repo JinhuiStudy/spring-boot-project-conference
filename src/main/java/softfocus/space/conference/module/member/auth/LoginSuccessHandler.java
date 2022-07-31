@@ -32,7 +32,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         if(optional.isEmpty()) {
             response.sendRedirect("/loginPage");
         }else{
-            response.sendRedirect("/main");
+            response.sendRedirect("/author");
         }
     }
 

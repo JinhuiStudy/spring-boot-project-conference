@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login/login.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-sub-container">
+            <span class="title-kr">
+                2022 공간 번식 레지던시</br>
+            </span>
+
+            <span class="title-eng">
+                2022 Space Breeding Residency</br></br>
+            </span>
+            <div >
+                <div class="authors" th:each ="m : ${members}">
+                    <div class="author">
+                        <span class="name-kr" th:text="${m.nickname}"></span></br>
+                        <span class="name-eng" th:text="${m.email}"></span></br>
+
+                        <i th:if="${m.nickname=='손경민'}" class="fa-solid fa-circle activate-circle-red"></i>
+                        <i th:unless="${m.nickname=='손경민'}" class="fa-solid fa-circle activate-circle-green"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

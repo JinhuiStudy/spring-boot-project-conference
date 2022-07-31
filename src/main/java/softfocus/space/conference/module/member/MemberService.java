@@ -6,6 +6,7 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import softfocus.space.conference.module.member.dto.MemberDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 import static softfocus.space.conference.module.member.QMember.member;
@@ -42,4 +43,7 @@ public class MemberService {
     }
 
 
+    public List<MemberDTO> findAll(){
+        return memberRepository.findAll().stream().map(Member::toDTO).toList();
+    }
 }

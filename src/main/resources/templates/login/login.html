@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login/login.css}"/>
 </head>
 <body>
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-md-6">
-            <a href="/oauth2/authorization/kakao" class="btn btn-warning active" role="button">Kakao</a>
+    <div class="login-container">
+        <div class="login-sub-container">
+            <span class="title-kr">
+                2022 공간 번식 레지던시</br>
+            </span>
+
+            <span class="title-eng">
+                2022 Space Breeding Residency</br></br>
+            </span>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="/oauth2/authorization/kakao" class="btn btn-warning active" role="button">
+                            <img class="kakao-btn" th:src="@{/img/kakao_login_large_wide.png}"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

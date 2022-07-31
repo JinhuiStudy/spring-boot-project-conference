@@ -8,6 +8,7 @@ import softfocus.space.conference.module.member.Member;
 @Data
 @AllArgsConstructor
 public class MemberDTO {
+    private Long idx;
     private String nickname;
     private String email;
 
