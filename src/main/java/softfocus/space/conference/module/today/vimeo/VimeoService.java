@@ -11,6 +11,7 @@ import softfocus.space.conference.module.today.repository.VimeoRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 @Service
@@ -24,35 +25,46 @@ public class VimeoService {
     private final String token = "f989153b326644a3f929f3e2d867d92f";
 
     @Transactional
-    public VimeoResponse vimeoUpload(MultipartFile multipartFile, Member member) throws Exception {
+    public VimeoResponse vimeoUpload(MultipartFile multipartFile, Member member) {
         var vimeoUtil = new VimeoUtil(token);
 
         var file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        boolean isFile = file.createNewFile();
-        var fos = new FileOutputStream(file);
-        fos.write(multipartFile.getBytes());
-        fos.close();
+        try {
+            boolean isFile = file.createNewFile();
+            var fos = new FileOutputStream(file);
+            fos.write(multipartFile.getBytes());
+            fos.close();
 
-        var videoEndPoint = vimeoUtil.addVideo(file);
-        log.info("VideoEndPoint: {}", videoEndPoint);
+            var videoEndPoint = vimeoUtil.addVideo(file);
+            log.info("VideoEndPoint: {}", videoEndPoint);
 
-        vimeoRepository.save(
-                new Vimeo(null, member, videoEndPoint)
-        );
+            vimeoRepository.save(
+                    new Vimeo(null, member, videoEndPoint)
+            );
 
-        //get video info
-        var info = vimeoUtil.getVideoInfo(videoEndPoint);
-        log.info("Video info: {}", info.toString());
+            //get video info
+            var info = vimeoUtil.getVideoInfo(videoEndPoint);
+            log.info("Video info: {}", info.toString());
 
-        //edit video
-        var name = "Video TEST";
-        var desc = "Description";
-        var license = ""; //see Vimeo API Documentation
-        var privacyView = "disable"; //see Vimeo API Documentation
-        var privacyEmbed = "whitelist"; //see Vimeo API Documentation
-        var reviewLink = false;
+            //edit video
+            var name = "Video TEST";
+            var desc = "Description";
+            var license = ""; //see Vimeo API Documentation
+            var privacyView = "disable"; //see Vimeo API Documentation
+            var privacyEmbed = "whitelist"; //see Vimeo API Documentation
+            var reviewLink = false;
 
-        return vimeoUtil.updateVideoMetadata(videoEndPoint, name, desc, license, privacyView, privacyEmbed, reviewLink);
+            file.delete();
+            return vimeoUtil.updateVideoMetadata(videoEndPoint, name, desc, license, privacyView, privacyEmbed, reviewLink);
+
+        } catch (IOException e) {
+            file.delete();
+            throw new RuntimeException(e);
+        } catch (VimeoException e) {
+            file.delete();
+            throw new RuntimeException(e);
+        }
+
 
         //add video privacy domain
 //        vimeo.addVideoPrivacyDomain(videoEndPoint, "clickntap.com");
