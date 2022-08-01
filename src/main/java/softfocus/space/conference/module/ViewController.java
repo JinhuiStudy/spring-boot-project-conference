@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import softfocus.space.conference.module.member.MemberService;
 import softfocus.space.conference.module.member.dto.MemberDTO;
@@ -28,10 +29,14 @@ public class ViewController {
         return "/login/author";
     }
 
-    @GetMapping("/main")
-    public String main(Model model,Principal principal){
+    @GetMapping("/main/{idx}")
+    public String main(Model model, Principal principal, @PathVariable Long idx){
         MemberDTO member = memberService.getMember(principal.getName());
+        MemberDTO author = memberService.getMemberByIdx(idx);
+        model.addAttribute("author",author);
         model.addAttribute("member",member);
+
+
         return "/main/main :: main";
     }
 

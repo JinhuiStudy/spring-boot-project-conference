@@ -13,6 +13,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer>, Queryd
     Stream<Member> findByNickname(String nickname);
 
     Optional<Member> findByEmail(String email);
-
+    Optional<Member> findByIdx(Long idx);
     Optional<Member> findByMemberOauth_OauthId(String id);
 }

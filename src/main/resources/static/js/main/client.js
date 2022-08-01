@@ -1,19 +1,19 @@
 //connecting to our signaling server
 //var conn = new WebSocket(`wss://${location.host}/socket`);
-var conn = new SockJS(`https://${location.host}/socket`); // sock.js
+let conn = new SockJS(`https://${location.host}/socket`); // sock.js
 
-var peerConnection;
-var dataChannel;
-var input = document.getElementById("messageInput");
-var incomingMessage = document.getElementById("incomingMessage");
+let peerConnection;
+let dataChannel;
+let input = document.getElementById("messageInput");
+let incomingMessage = document.getElementById("incomingMessage");
 
-var localVideo = document.querySelector('#localVideo');
-var remoteVideo = document.querySelector('#remoteVideo');
-var localStream;
-var remoteStream;
+let localVideo = document.querySelector('#localVideo');
+let remoteVideo = document.querySelector('#remoteVideo');
+let localStream;
+let remoteStream;
 
-var isInitiator = false;
-var isStarted = false; // initialize호출후 true로 변경
+let isInitiator = false;
+let isStarted = false; // initialize호출후 true로 변경
 
 conn.onopen = function(e) {
     console.log("Connected to the signaling server : ", e);
@@ -194,6 +194,14 @@ async function initLocalStream(){
         const {srcObject: stream} = videoElem;
         const tracks = stream.getTracks();
         tracks.forEach(track => track.enabled = !track.enabled);
+        if(document.getElementById("mute-btn").classList.contains("fa-video")){
+            document.getElementById("mute-btn").classList.add("fa-video-slash")
+            document.getElementById("mute-btn").classList.remove("fa-video")
+        }else{
+            document.getElementById("mute-btn").classList.add("fa-video")
+            document.getElementById("mute-btn").classList.remove("fa-video-slash")
+        }
+
     };
     /**
      * video/audio를 잠시 멈춤

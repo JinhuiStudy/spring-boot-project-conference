@@ -6,6 +6,8 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/login/login.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="login-container">
@@ -19,7 +21,7 @@
             </span>
             <div >
                 <div class="authors" th:each ="m : ${members}">
-                    <div class="author">
+                    <div class="author" th:onclick="'selectAuthor('+${m.idx}+')'">
                         <span class="name-kr" th:text="${m.nickname}"></span></br>
                         <span class="name-eng" th:text="${m.email}"></span></br>
 
@@ -31,4 +33,5 @@
         </div>
     </div>
 </body>
+<script th:src="@{/js/login/author.js}"></script>
 </html>
