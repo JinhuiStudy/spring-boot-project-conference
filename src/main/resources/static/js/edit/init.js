@@ -19,6 +19,8 @@ var editor = grapesjs.init({
       per_page: 5,
       youtubeLoadCallback: () => 'hey!',
       vimeoLoadUrl: '/today/vimeo/data/' + memberIdx,
+      displayLoadElement: document.getElementById('loader'),
+      displayLayoutElement: document.getElementById('layout_body')
     },
   },
   i18n: {

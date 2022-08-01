@@ -32,13 +32,11 @@ public class ViewController {
     }
 
     @GetMapping("/main/{idx}")
-    public String main(Model model, Principal principal, @PathVariable Long idx){
+    public String main(Model model, Principal principal, @PathVariable Integer idx){
         MemberDTO member = memberService.getMember(principal.getName());
         MemberDTO author = memberService.getMemberByIdx(idx);
         model.addAttribute("author",author);
         model.addAttribute("member",member);
-
-
         return "/main/main :: main";
     }
 

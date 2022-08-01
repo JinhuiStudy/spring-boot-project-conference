@@ -51,7 +51,7 @@ public class MemberService {
         Optional<Member> optional = memberRepository.findByMemberOauth_OauthId(oauth_id);
         return optional.orElse(null);
     }
-    public MemberDTO getMemberByIdx(Long idx){
+    public MemberDTO getMemberByIdx(Integer idx){
         Optional<Member> optional = memberRepository.findByIdx(idx);
         return optional.map(Member::toDTO).orElse(null);
     }
