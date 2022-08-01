@@ -15,7 +15,7 @@ public class Member extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Integer idx;
 
     @Comment("이름")
     @Column(length = 10, nullable = false)

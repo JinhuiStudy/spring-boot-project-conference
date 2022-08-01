@@ -37,14 +37,20 @@ public class MemberService {
         return memberRepository.findAll(predicate);
     }
 
-
-
+    public Member getMember_paramIdx(Integer idx){
+        Optional<Member> optional = memberRepository.findById(idx);
+        return optional.orElse(null);
+    }
 
     public MemberDTO getMember(String oauth_id){
         Optional<Member> optional = memberRepository.findByMemberOauth_OauthId(oauth_id);
         return optional.map(Member::toDTO).orElse(null);
     }
 
+    public Member getMemberEntity(String oauth_id){
+        Optional<Member> optional = memberRepository.findByMemberOauth_OauthId(oauth_id);
+        return optional.orElse(null);
+    }
     public MemberDTO getMemberByIdx(Long idx){
         Optional<Member> optional = memberRepository.findByIdx(idx);
         return optional.map(Member::toDTO).orElse(null);

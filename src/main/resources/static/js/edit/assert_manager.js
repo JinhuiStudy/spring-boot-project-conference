@@ -80,7 +80,7 @@ var assetManager =  {
             formData.append('files', files[i]) //containing all the selected images from local
         }
         $.ajax({
-            url: '/today/file/upload',
+            url: '/today/file/upload/' + memberIdx,
             type: 'POST',
             data: formData,
             contentType:false,
@@ -148,3 +148,5 @@ var assetManager =  {
     // Any dropzone content to append inside dropzone element
     dropzoneContent: '',
 };
+
+

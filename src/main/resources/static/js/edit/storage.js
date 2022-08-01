@@ -1,5 +1,3 @@
-
-const projectID = 1;
 const projectEndpoint = `https://localhost:8080/today/${projectID}`;
 
 var storageManager = {

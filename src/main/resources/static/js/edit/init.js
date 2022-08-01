@@ -13,11 +13,12 @@ var editor = grapesjs.init({
   plugins: ['gjs-blocks-basic', 'grapesjs-tabs', 'grapesjs-style-bg', 'grapesjs-video-embed-manager'],
   pluginsOpts: {
     'grapesjs-video-embed-manager': {
+      memberIdx: memberIdx,
       preloader : 'https://gifimage.net/wp-content/uploads/2018/04/loading-icon-gif-6.gif',
       resources: ['vimeo'],
       per_page: 5,
       youtubeLoadCallback: () => 'hey!',
-      vimeoLoadUrl: '/today/vimeo/data',
+      vimeoLoadUrl: '/today/vimeo/data/' + memberIdx,
     },
   },
   i18n: {
@@ -43,24 +44,5 @@ var editor = grapesjs.init({
 //       }
 //     }
 // );
-
-
-function getHtml(){
-  console.log(editor.getHtml());
-}
-
-function getJs(){
-  console.log(editor.getJs());
-}
-
-function getCss(){
-  console.log(editor.getCss());
-}
-
-function save() {
-  const data = editor.getProjectData();
-  console.log(data);
-  editor.Storage.store(data);
-}
 
 
