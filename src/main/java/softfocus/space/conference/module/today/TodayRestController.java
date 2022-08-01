@@ -3,20 +3,22 @@ package softfocus.space.conference.module.today;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import softfocus.space.conference.module.member.MemberService;
 import softfocus.space.conference.module.today.dto.FileGrapeDTO;
-import softfocus.space.conference.module.today.entity.Today;
 import softfocus.space.conference.module.today.request.TodaySaveRequest;
 import softfocus.space.conference.module.today.response.FileResponse;
 import softfocus.space.conference.module.today.file.FileService;
 import softfocus.space.conference.module.today.vimeo.VimeoSampleData;
+import softfocus.space.conference.module.today.vimeo.VimeoService;
+import softfocus.space.conference.module.today.vimeo.response.VimeoRoot;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -25,14 +27,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/today")
 @RequiredArgsConstructor
+@Slf4j
 public class TodayRestController {
 
     private final FileService fileService;
     private final TodayService todayService;
     private final MemberService memberService;
+    private final VimeoService vimeoService;
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    private final AmazonS3 amazonS3;
 
     @PatchMapping("/{idx}")
     public Map<Object, Object> patch(
@@ -72,7 +74,6 @@ public class TodayRestController {
     public ResponseEntity<Object> data (
             @PathVariable Integer memberIdx
     ){
-        System.out.println("DATA:" + memberIdx);
         return ResponseEntity.ok(VimeoSampleData.jsonData);
     }
 
@@ -81,10 +82,47 @@ public class TodayRestController {
             MultipartHttpServletRequest multipartHttpServletRequest,
             @PathVariable Integer memberIdx
     ){
-        System.out.println("vimeoFileUpload:" + memberIdx);
         var file = multipartHttpServletRequest.getFile("file");
-        return ResponseEntity.ok().build();
+        if (file == null) return ResponseEntity.badRequest().build();
+
+        var member = memberService.getMember_paramIdx(memberIdx);
+        if (member == null) return ResponseEntity.badRequest().build();
+
+        try {
+            vimeoService.vimeoUpload(file, member);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
+
+    @GetMapping("/vimeo/delete/{vimeoId}")
+    public ResponseEntity<Object> vimeoFileDelete (
+            @PathVariable String vimeoId){
+        try {
+            vimeoService.vimeoDelete("/videos/" + vimeoId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/vimeo/get/{vimeoId}")
+    public ResponseEntity<Object> vimeoFileGet (
+            @PathVariable String vimeoId){
+        try {
+            var jsonString = vimeoService.vimeoGet("/videos/" + vimeoId).getJson().toString();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            var vimeoRoot = objectMapper.readValue(jsonString, VimeoRoot.class);
+            return ResponseEntity.ok(vimeoRoot);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     @PostMapping("/file/upload/{memberIdx}")
     public ResponseEntity<Object> uploadMultipleFiles(

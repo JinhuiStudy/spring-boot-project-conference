@@ -7,16 +7,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import softfocus.space.conference.module.member.Member;
 import softfocus.space.conference.module.today.entity.Today;
 import softfocus.space.conference.module.today.repository.TodayRepository;
 import softfocus.space.conference.module.today.request.TodaySaveRequest;
-import softfocus.space.conference.module.today.vimeo.Vimeo;
+import softfocus.space.conference.module.today.vimeo.VimeoUtil;
+import softfocus.space.conference.module.today.vimeo.VimeoResponse;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -27,31 +31,6 @@ public class TodayService {
     private final TodayRepository todayRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void vimeoSample() throws Exception {
-        var vimeo = new Vimeo("[token]");
-
-        //add a video
-        var videoEndPoint = vimeo.addVideo(new File("/Users/tmendici/Downloads/Video.AVI"));
-
-        //get video info
-        var info = vimeo.getVideoInfo(videoEndPoint);
-        log.info("Video info: {}", info.toString());
-
-        //edit video
-        var name = "Name";
-        var desc = "Description";
-        var license = ""; //see Vimeo API Documentation
-        var privacyView = "disable"; //see Vimeo API Documentation
-        var privacyEmbed = "whitelist"; //see Vimeo API Documentation
-        var reviewLink = false;
-        vimeo.updateVideoMetadata(videoEndPoint, name, desc, license, privacyView, privacyEmbed, reviewLink);
-
-        //add video privacy domain
-        vimeo.addVideoPrivacyDomain(videoEndPoint, "clickntap.com");
-
-        //delete video
-        vimeo.removeVideo(videoEndPoint);
-    }
 
     @Transactional
     public Today getToday(Member member) {
@@ -91,10 +70,11 @@ public class TodayService {
         if (todayOptional.isEmpty()) return null;
 
         var today = todayOptional.get();
-//        today.setData(todaySaveRequest.getData());
         today.setCssData(todaySaveRequest.getCssData());
         today.setJsData(todaySaveRequest.getJsData());
         today.setHtmlData(todaySaveRequest.getHtmlData());
         return today;
     }
+
+
 }

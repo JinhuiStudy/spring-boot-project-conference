@@ -38,7 +38,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-public class Vimeo {
+public class VimeoUtil {
     private static final String UTF_8 = "UTF-8";
     private static final String VIMEO_VERSION = "3.4";
     private static final String VIMEO_SERVER = "https://api.vimeo.com";
@@ -46,11 +46,11 @@ public class Vimeo {
     private String tokenType;
     private URL proxy;
 
-    public Vimeo(String token) {
+    public VimeoUtil(String token) {
         this(token, "bearer");
     }
 
-    public Vimeo(String token, String tokenType) {
+    public VimeoUtil(String token, String tokenType) {
         this.token = token;
         this.tokenType = tokenType;
     }

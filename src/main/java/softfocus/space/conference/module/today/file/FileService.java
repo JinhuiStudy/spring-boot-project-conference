@@ -20,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FileService {
 
     @Value("${cloud.aws.s3.bucket}")
@@ -43,8 +44,8 @@ public class FileService {
                         multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1),
                         fileName,
                         path,
-                        image.getHeight(),
-                        image.getWidth(),
+                        image == null ? 100 : image.getHeight(),
+                        image == null ? 100 : image.getWidth(),
                         multipartFile.getSize()
                 )
         );

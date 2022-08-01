@@ -47,7 +47,6 @@ var panels = {
                     id: sav,
                     className: 'fa fa-floppy-o',
                     command: (editor => {
-
                         editor.Storage.store(editor.getProjectData())
                             .then(result => {
                                 $.ajax({
@@ -62,12 +61,17 @@ var panels = {
                                     dataType: 'text',
                                     beforeSend: function(jqXHR) {}, // 서버 요청 전 호출 되는 함수 return false; 일 경우 요청 중단
                                     success: function(data, statusText, jqXHR) {
+                                        console.log(data);
+                                        console.log(statusText);
+                                        console.log(jqXHR);
+
                                         alert("저장이 완료되었습니다.");
                                     },
                                     error: function(data, statusText, jqXHR) {
                                         console.log(data);
                                         console.log(statusText);
                                         console.log(jqXHR);
+
                                         alert("저장을 실패헸습니다.");
                                     }, // 요청 실패.
                                     complete: function(jqXHR) {} // 요청의 실패, 성공과 상관 없이 완료 될 경우 호출
